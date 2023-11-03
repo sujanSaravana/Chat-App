@@ -1,0 +1,19 @@
+.login-column{
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.signup-column{
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.login-title{
+    text-align: center;
+}
+
+.login-email{
+    
+}
