@@ -3,8 +3,7 @@ const app = express();
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const dotenv = require('dotenv'); 
-const { connection } = require('mongoose');
+const dotenv = require('dotenv');
 dotenv.config();
 const port = 3000;
 
@@ -50,9 +49,9 @@ const port = 3000;
   });
 
   app.post("/login", (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
   
-    pool.query("SELECT * FROM users WHERE email = ? AND password = ?", [email, password], (err, results) => {
+    pool.query("SELECT * FROM users WHERE username = ? AND password = ?", [username, password], (err, results) => {
       if (err) {
         return res.status(500).json({ success: false, message: 'Internal server error' });
       }
@@ -60,9 +59,13 @@ const port = 3000;
       if (results.length > 0) {
         res.json({ success: true, message: 'Login successful' });
       } else {
-        res.status(401).json({ success: false, message: 'Invalid email or password' });
+        res.status(401).json({ success: false, message: 'Invalid username or password' });
       }
     });
   });
+
+
+
+  
   
  

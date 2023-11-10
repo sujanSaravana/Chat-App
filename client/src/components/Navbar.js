@@ -20,14 +20,14 @@ function Bar() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleToggle}/>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav>
-              <Nav.Link as={Link} to="/Home">
-                <p className="nav-title">Home</p>
+              <Nav.Link as={Link} to="/Chat">
+                <p className="nav-title">Chat</p>
               </Nav.Link>
               <Nav.Link as={Link} to="/">
                 <p className="nav-title">Products</p>
               </Nav.Link>
               <Nav.Link as={Link} to="/Login">
-                <p className="nav-title">Login | Sign up</p>
+                <p className="nav-title-login">Login | Sign up</p>
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

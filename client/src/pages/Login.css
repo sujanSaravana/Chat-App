@@ -14,6 +14,105 @@
     text-align: center;
 }
 
-.login-email{
-    
+.login-input {
+    position: relative;
+    margin: 20px;
+  }
+  
+.login {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    background-color: transparent;
+  }
+  
+.login-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 16px;
+    color: rgba(204, 204, 204, 0);
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+  
+.login-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background-color: #1D4ED8;
+    transition: all 0.3s ease;
+  }
+  
+.login:focus + .login-label {
+    top: -20px;
+    font-size: 12px;
+    color: #1D4ED8;
+  }
+  
+.login:focus + .login-label + .login-highlight {
+    width: 100%;
+  }
+
+.login-btn-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh; 
 }
+
+.login-btn {
+    --color: #1D4ED8;
+    font-family: inherit;
+    display: inline-block;
+    width: 8em;
+    height: 2.6em;
+    line-height: 2.5em;
+    margin: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--color);
+    transition: color .5s;
+    z-index: 1;
+    font-size: 17px;
+    border-radius: 6px;
+    font-weight: 500;
+    color: var(--color);
+   }
+   
+.login-btn:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: var(--color);
+    height: 150px;
+    width: 200px;
+    border-radius: 50%;
+   }
+   
+.login-btn:hover {
+    color: #fff;
+   }
+   
+.login-btn:before {
+    top: 100%;
+    left: 100%;
+    transition: all .7s;
+   }
+   
+.login-btn:hover:before {
+    top: -30px;
+    left: -30px;
+   }
+   
+.login-btn:active:before {
+    background: #1D4ED8;
+    transition: background 0s;
+   }
+  

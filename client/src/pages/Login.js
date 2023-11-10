@@ -6,38 +6,48 @@ import './Login.css'
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 function Login() {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const login = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/login', { email, password });
+      const response = await axios.post('http://localhost:3000/login', { username, password });
       console.log('login successful:', response.data);
+      setTimeout(() => {
+        navigate("/chat");
+      }, 5000)
     } catch (error) {
       console.log('login failed:', error);
     }
   }
   
     return (
-      <Container className="login">
+      <Container>
         <Navbar />
         <Row>
             <Col className="login-column">
                 <h1 className="login-title">Log in</h1>
-                <input className="login-username" type="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter Username"></input>
-                <br />
-                <input className="login-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email"></input>
-                <br />
-                <input className="login-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password"></input>
-                <br />
-                <button onClick={login}>Log in</button>
+                  <div className="login-input">
+                    <input className="login" type="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter Username"></input>
+                    <label for="login-username" className="login-label">Enter Username</label>
+                    <span class="login-highlight"></span>
+                  </div>
+                  <div className="login-input">
+                    <input className="login" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password"></input>
+                    <label for="login-username" className="login-label">Enter Password</label>
+                    <span class="login-highlight"></span>
+                  </div>
+                  <div className="login-btn-container">
+                    <button onClick={login} className="login-btn">Log in</button>
+                  </div>
             </Col>
             <Col className="signup-column">
-                <h1 className="signup-title">Dont have an account yet?</h1>
+                <h1 className="signup-title">Don't have an account yet?</h1>
                 <Link to={"/Signup"}>
                   <button>Create a new account</button>
                 </Link>

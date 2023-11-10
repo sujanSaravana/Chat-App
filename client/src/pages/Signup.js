@@ -1,7 +1,5 @@
 import React from "react";
 import Container from "react-bootstrap/esm/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Navbar from "../components/Navbar";
 import './Signup.css'
 import { useState } from "react";
@@ -18,7 +16,9 @@ function Signup() {
     try {
       const response = await axios.post('http://localhost:3000/signup', { username, email, password });
       console.log('user created successfully:', response.data);
-      navigate("/");
+      setTimeout(() => {
+        navigate("/chat");
+      }, 5000)
     } catch (error) {
       console.log('user creation failed:', error);
     }
