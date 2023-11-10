@@ -7,17 +7,20 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useUser } from '../components/Usercontext';
 
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useUser();
   const navigate = useNavigate();
 
-  const login = async () => {
+  const handlelogin = async () => {
     try {
       const response = await axios.post('http://localhost:3000/login', { username, password });
       console.log('login successful:', response.data);
+      login();
       setTimeout(() => {
         navigate("/chat");
       }, 5000)
@@ -43,7 +46,7 @@ function Login() {
                     <span class="login-highlight"></span>
                   </div>
                   <div className="login-btn-container">
-                    <button onClick={login} className="login-btn">Log in</button>
+                    <button onClick={handlelogin} className="login-btn">Log in</button>
                   </div>
             </Col>
             <Col className="signup-column">

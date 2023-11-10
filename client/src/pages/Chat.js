@@ -6,7 +6,6 @@ function Chat() {
 
     return (
       <div className="home">
-        <button>Logout</button>
         <Navbar />
         <h1>Chat</h1>
       </div>
