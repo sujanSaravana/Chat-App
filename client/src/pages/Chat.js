@@ -1,13 +1,19 @@
-import { useEffect } from "react";
-import Navbar from "../components/Navbar";
-import axios from "axios"
+import React from "react";
+import './Chat.css'
 
 function Chat() {
 
     return (
-      <div className="home">
-        <Navbar />
-        <h1>Chat</h1>
+      <div>
+        <div className="top-container">
+          <div className="title-container">
+            <p className="logo">Chat App</p>
+          </div>
+          <div className="logout-container">
+            <button>sdfs</button>
+            <h1>dsfafaf</h1>
+          </div>
+        </div>
       </div>
     );
   }

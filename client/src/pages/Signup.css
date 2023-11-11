@@ -1,0 +1,51 @@
+.signup-title{
+    text-align: center;
+}
+
+.signup-input {
+    position: relative;
+    margin: 20px;
+    margin-right: 2cm;
+    margin-left: 2cm;
+  }
+  
+.signup {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    background-color: transparent;
+  }
+  
+.signup-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 16px;
+    color: rgba(204, 204, 204, 0);
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+  
+.signup-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background-color: #1D4ED8;
+    transition: all 0.3s ease;
+  }
+  
+.signup:focus + .signup-label {
+    top: -20px;
+    font-size: 12px;
+    color: #1D4ED8;
+  }
+  
+.signup:focus + .signup-label + .signup-highlight {
+    width: 100%;
+  }

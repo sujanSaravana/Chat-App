@@ -25,17 +25,29 @@ function Signup() {
   }
   
     return (
-      <Container className="signup">
-        <Navbar />
-                <h1 className="signup-title">Signup</h1>
-                <input className="signup-username" type="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter Username"></input>
-                <br />
-                <input className="signup-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email"></input>
-                <br />
-                <input className="signup-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password"></input>
-                <br />
-                <button onClick={createUser}>Signup</button>
-      </Container>
+      <div>
+          <div classname="signup-column">
+            <h1 className="signup-title">Signup</h1>
+              <div className="signup-input">
+                <input className="signup" type="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter Username"></input>
+                <label for="signup-username" className="signup-label">Enter Username</label>
+                <span className="signup-highlight"></span>
+              </div>
+              <div className="signup-input">
+                <input className="signup" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email"></input>
+                <label for="signup-email" className="signup-label">Enter Email</label>
+                <span className="signup-highlight"></span>
+              </div>
+              <div className="signup-input">
+                <input className="signup" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password"></input>
+                <label for="signup-password" className="signup-label">Enter Password</label>
+                <span className="signup-highlight"></span>
+              </div>
+              <div className="signup-btn-container">
+                <button onClick={createUser} className="signup-btn">Signup</button>
+              </div>
+          </div>
+      </div>
     );
   }
   

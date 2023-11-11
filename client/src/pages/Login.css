@@ -1,13 +1,22 @@
 .login-column{
     width: 50%;
-    display: inline-block;
+    display: block;
     vertical-align: top;
 }
 
 .signup-column{
     width: 50%;
-    display: inline-block;
+    display: block;
     vertical-align: top;
+}
+
+@media (min-width: 768px) {
+  .login-column,
+  .signup-column {
+      width: 50%;
+      display: inline-block;
+      vertical-align: top;
+  }
 }
 
 .login-title{
@@ -17,6 +26,8 @@
 .login-input {
     position: relative;
     margin: 20px;
+    margin-right: 2cm;
+    margin-left: 2cm;
   }
   
 .login {
@@ -60,6 +71,7 @@
     width: 100%;
   }
 
+.signup-btn-container,
 .login-btn-container{
     display: flex;
     justify-content: center;
@@ -67,6 +79,7 @@
     height: 10vh; 
 }
 
+.signup-btn,
 .login-btn {
     --color: #1D4ED8;
     font-family: inherit;
@@ -84,8 +97,10 @@
     border-radius: 6px;
     font-weight: 500;
     color: var(--color);
+    cursor: pointer;
    }
-   
+
+.signup-btn:before,   
 .login-btn:before {
     content: "";
     position: absolute;
@@ -95,24 +110,51 @@
     width: 200px;
     border-radius: 50%;
    }
-   
+
+.signup-btn:hover, 
 .login-btn:hover {
     color: #fff;
    }
-   
+
+.signup-btn:before, 
 .login-btn:before {
     top: 100%;
     left: 100%;
     transition: all .7s;
    }
-   
+
+.signup-btn:hover:before,  
 .login-btn:hover:before {
     top: -30px;
     left: -30px;
    }
-   
+
+.signup-btn:active:before,
 .login-btn:active:before {
     background: #1D4ED8;
     transition: background 0s;
    }
+
+body {
+    margin: 0;
+    padding: 0;
+  }
+
+.login-column,
+.signup-column {
+    width: 50%;
+    margin-top: 1cm; 
+  }
+
+  @media (max-width: 768px) {
+    .login-column,
+    .signup-column {
+      width: 100%;
+    }
+  }
+
+.signup-title {
+    text-align: center;
+  }
+
   
