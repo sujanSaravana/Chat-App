@@ -4,15 +4,19 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const dotenv = require('dotenv');
-dotenv.config();
-const port = 3000;
+const bcrypt = require('bcrypt');
 
+dotenv.config();
+
+const port = 3000;
+const saltRound = 10;
 
   app.use(bodyParser.json());
 
   app.use(cors({
     origin : ["http://localhost:3001"],
-    methods : ["GET", "POST", "DELETE"]
+    methods : ["GET", "POST", "DELETE"],
+    credentials: true,
   }))
 
   app.listen(port, () => {
@@ -36,32 +40,44 @@ const port = 3000;
   });
 
   app.post("/signup", (req, res) => {
-    const { username, email, password } = req.body;
-  
-    pool.query("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", [username, email, password], (err, results) => {
-      if (err) {
-        console.error('Error creating user: ' + err.stack);
-        return res.status(500).json({ success: false, message: 'Internal server error' });
+    const username = req.body.username;
+    const password = req.body.password;
+    const email = req.body.email;
+
+    bcrypt.hash(password, saltRound, (err, hash) => {
+      if(err) {
+        console.log(err)
       }
-  
+      pool.execute("INSERT INTO users (username, email, password) VALUES (?,?,?)", [username, email, hash],
+      (err, result) => {
+        console.log(err);
+      })
       res.json({ success: true, message: 'User created successfully' });
-    });
+    })
   });
 
   app.post("/login", (req, res) => {
-    const { username, password } = req.body;
-  
-    pool.query("SELECT * FROM users WHERE username = ? AND password = ?", [username, password], (err, results) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    
+    pool.execute("SELECT * FROM users WHERE username = ?;", [username],
+    (err, result) => {
       if (err) {
-        return res.status(500).json({ success: false, message: 'Internal server error' });
+        res.send({err: err});
       }
-  
-      if (results.length > 0) {
-        res.json({ success: true, message: 'Login successful' });
-      } else {
-        res.status(401).json({ success: false, message: 'Invalid username or password' });
-      }
-    });
+
+    if (result.length > 0){
+          bcrypt.compare(password, result[0].password, (error, response) => {
+            if(response) {
+              res.send(result);
+            } else {
+                res.send({message: "Wrong username or password"});
+            }
+          })
+    } else {
+          res.send({ message: "User doesn't exists"})
+    }
+    })
   });
 
 
