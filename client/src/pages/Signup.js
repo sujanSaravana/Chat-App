@@ -1,6 +1,5 @@
 import React from "react";
-import Container from "react-bootstrap/esm/Container";
-import Navbar from "../components/Navbar";
+import ErrorPopup from "../components/ErrorPopup";
 import './Signup.css'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,18 +9,33 @@ function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
   const navigate = useNavigate();
 
   const createUser = async () => {
     try {
+      if (!username || !email || !password) {
+        setError('Please fill in all fields.');
+        setShowErrorPopup(true);
+        return;
+      }
+
       const response = await axios.post('http://localhost:3000/signup', { username, email, password });
       console.log('user created successfully:', response.data);
       setTimeout(() => {
         navigate("/chat");
-      }, 5000)
+      }, 10);
     } catch (error) {
       console.log('user creation failed:', error);
+      setError('User creation failed.'); 
+      setShowErrorPopup(true);
     }
+  }
+
+  const closeErrorPopup = () => {
+    console.log('close popup')
+    setShowErrorPopup(false);
   }
   
     return (
@@ -45,6 +59,9 @@ function Signup() {
               </div>
               <div className="signup-btn-container">
                 <button onClick={createUser} className="signup-btn">Signup</button>
+              </div>
+              <div>
+                {showErrorPopup && <ErrorPopup message={error} onClose={closeErrorPopup} />}
               </div>
           </div>
       </div>

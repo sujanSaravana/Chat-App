@@ -4,16 +4,24 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useUser } from '../components/Usercontext';
+import ErrorPopup from "../components/ErrorPopup";
 
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
   const { login } = useUser();
   const navigate = useNavigate();
 
   const handlelogin = async () => {
     try {
+      if (!username || !password){
+        setError('Please fil in all fieds')
+        setShowErrorPopup(true);
+        return;
+      }
       const response = await axios.post('http://localhost:3000/login', { username, password });
       console.log('login successful:', response.data);
       login();
@@ -22,7 +30,14 @@ function Login() {
       }, 10)
     } catch (error) {
       console.log('login failed:', error);
+      setError('login failed');
+      setShowErrorPopup(true);
     }
+  }
+
+  const closeErrorPopup = () => {
+    console.log('close popup')
+    setShowErrorPopup(false);
   }
   
     return (
@@ -50,6 +65,9 @@ function Login() {
               <button className="signup-btn">Create a new account</button>
               </div>
             </Link>
+        </div>
+        <div>
+          {showErrorPopup && <ErrorPopup message={error} onClose={closeErrorPopup} />}
         </div>
       </div>
     );
