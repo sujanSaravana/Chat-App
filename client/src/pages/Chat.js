@@ -53,7 +53,14 @@ function Chat() {
       <div className="right-container">
         <div className="logout-container">
           {window.innerWidth <= 768 && (
-            <button onClick={handleToggle}>☰</button>
+            <div>
+               <input onClick={handleToggle} classname="toggle-btn" type="checkbox" id="checkbox"/>
+                <label for="checkbox" class="toggle">
+                  <div class="bars" id="bar1"></div>
+                  <div class="bars" id="bar2"></div>
+                  <div class="bars" id="bar3"></div>
+                </label>
+            </div>
           )}
           <p>
             <button className="logout-btn" onClick={handlelogout}>logout</button>

@@ -13,11 +13,13 @@
 
 .left-container{
     width: 30%;
+    transition: width 0.3s ease;
 }
 
 .right-container{
     height: 100vh;
-    width: 70%;
+    flex-grow: 1;
+    overflow-x: hidden;
 }
   
 .title-container{
@@ -36,6 +38,8 @@
     background-color: #9D8FF0;
     font-family: 'Jost', sans-serif;
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .chat-container{
@@ -65,11 +69,77 @@
     outline: 1px solid lightgrey;
   }
 
-  .logout-btn{
-    
+  .toggle-btn {
+    background-color: #5b5fc7;
+    color: white;
+    border: none;
+    padding: 4px 12px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .toggle-btn:hover {
+    background-color: #4045a7;
   }
 
-
+  #checkbox {
+    display: none;
+  }
+  
+  .toggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition-duration: .5s;
+  }
+  
+  .bars {
+    width: 100%;
+    height: 4px;
+    background-color: #220e9e;
+    border-radius: 4px;
+  }
+  
+  #bar2 {
+    transition-duration: .5s;
+  }
+  
+  #bar1,#bar3 {
+    width: 70%;
+  }
+  
+  #checkbox:checked + .toggle .bars {
+    position: absolute;
+    transition-duration: .3s;
+  }
+  
+  #checkbox:checked + .toggle #bar2 {
+    transform: scaleX(0);
+    transition-duration: .3s;
+  }
+  
+  #checkbox:checked + .toggle #bar1 {
+    width: 100%;
+    transform: rotate(45deg);
+    transition-duration: .3s;
+  }
+  
+  #checkbox:checked + .toggle #bar3 {
+    width: 100%;
+    transform: rotate(-45deg);
+    transition-duration: .3s;
+  }
+  
+  #checkbox:checked + .toggle {
+    transition-duration: .3s;
+    transform: rotate(180deg);
+  }
 
 
 
