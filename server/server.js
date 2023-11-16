@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 dotenv.config();
 
@@ -36,8 +37,19 @@ const saltRound = 10;
       console.error('Error connecting to database: ' + err.stack);
       return;
     }
-    console.log('Connected to database as id ' + connection.threadId);
+    console.log('Connected to database');
   });
+
+  const authenticateToken = (req, res, next) => {
+    const token = req.header('Authorization');
+    if (!token) return res.status(401).json({ error: 'Unauthorized' });
+  
+    jwt.verify(token, 'your_secret_key', (err, user) => {
+      if (err) return res.status(403).json({ error: 'Forbidden' });
+      req.user = user;
+      next();
+    });
+  };
 
   app.post("/signup", (req, res) => {
     const username = req.body.username;
@@ -59,16 +71,31 @@ const saltRound = 10;
   app.post("/login", (req, res) => {
     const { username, password } = req.body;
 
-    pool.execute("SELECT * FROM users WHERE username = ? AND password = ?", [username, password], (err, results) => {
+    pool.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
       if (err) {
-        return res.status(500).json({ success: false, message: 'Internal server error' });
+        console.error('Error during login:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
       }
-
-      if (results.length > 0) {
-        res.json({ success: true, message: 'Login successful' });
-      } else {
-        res.status(401).json({ success: false, message: 'Invalid username or password' });
+  
+      if (results.length === 0) {
+        return res.status(401).json({ error: 'Invalid username or password' });
       }
+  
+      const user = results[0];
+  
+      bcrypt.compare(password, user.password, (err, isValid) => {
+        if (err) {
+          console.error('Error during password comparison:', err);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+  
+        if (!isValid) {
+          return res.status(401).json({ error: 'Invalid username or password' });
+        }
+  
+        const accessToken = jwt.sign({ username: user.username, id: user.id }, 'your_secret_key');
+        res.json({ accessToken });
+      })
     });
   });
 
