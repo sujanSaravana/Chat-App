@@ -15,12 +15,13 @@ VALUES
 ('john', 'john@gmai.com', '1122');
 
 CREATE TABLE messages (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user VARCHAR(255),
-    messages TEXT,
-    timestamp TIMESTAMP DEFAULT NOW()
-)
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  senderId INT,
+  receiverId INT,
+  content TEXT,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-INSERT INTO messages (user, messages)
+INSERT INTO messages (senderId, receiverId, content)
 VALUES
-('bob', 'Hi i am Bob');
+('1', '2', 'Hello, my name is john');
