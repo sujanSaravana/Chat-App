@@ -39,8 +39,8 @@ function Signup() {
   }
   
     return (
-      <div>
-          <div classname="signup-column">
+      <body className="body">
+          <div className="signup-column">
             <h1 className="signup-title">Signup</h1>
               <div className="signup-input">
                 <input className="signup" type="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter Username"></input>
@@ -64,7 +64,7 @@ function Signup() {
                 {showErrorPopup && <ErrorPopup message={error} onClose={closeErrorPopup} />}
               </div>
           </div>
-      </div>
+      </body>
     );
   }
   

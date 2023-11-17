@@ -54,11 +54,11 @@ function Chat() {
         <div className="logout-container">
           {window.innerWidth <= 768 && (
             <div>
-               <input onClick={handleToggle} classname="toggle-btn" type="checkbox" id="checkbox"/>
+               <input onClick={handleToggle} className="toggle-btn" type="checkbox" id="checkbox"/>
                 <label for="checkbox" class="toggle">
-                  <div class="bars" id="bar1"></div>
-                  <div class="bars" id="bar2"></div>
-                  <div class="bars" id="bar3"></div>
+                  <div className="bars" id="bar1"></div>
+                  <div className="bars" id="bar2"></div>
+                  <div className="bars" id="bar3"></div>
                 </label>
             </div>
           )}
@@ -70,7 +70,7 @@ function Chat() {
           <h3>chat</h3>
         </div>
         <div className="input-container">
-          <input class="msg-input" name="text" placeholder="Type something..." type="search"/>
+          <input className="msg-input" name="text" placeholder="Type something..." type="search"/>
           <button>Send</button>
         </div>
       </div>

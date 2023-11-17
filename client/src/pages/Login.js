@@ -41,18 +41,19 @@ function Login() {
   }
   
     return (
-      <div>
+      <body className='body'>
+      <div className='login-page'>
         <div className="login-column">
          <h1 className="login-title">Log in</h1>
           <div className="login-input">
             <input className="login" type="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter Username"></input>
             <label for="login-username" className="login-label">Enter Username</label>
-            <span class="login-highlight"></span>
+            <span className="login-highlight"></span>
           </div>
           <div className="login-input">
             <input className="login" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password"></input>
             <label for="login-password" className="login-label">Enter Password</label>
-            <span class="login-highlight"></span>
+            <span className="login-highlight"></span>
           </div>
           <div className="login-btn-container">
             <button onClick={handlelogin} className="login-btn">Log in</button>
@@ -70,6 +71,7 @@ function Login() {
           {showErrorPopup && <ErrorPopup message={error} onClose={closeErrorPopup} />}
         </div>
       </div>
+      </body>
     );
   }
   
