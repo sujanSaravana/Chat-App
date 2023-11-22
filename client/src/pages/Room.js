@@ -13,6 +13,7 @@ function Room () {
     const [id, setId] = useState("");
     const navigate = useNavigate();
     const { username: paramUsername, id: paramId } = useParams();
+    const [roomId, setRoomId] = useState(null);
 
     useEffect(() => {
         setUsername(paramUsername);
@@ -27,17 +28,45 @@ function Room () {
         return;
       }
 
-      const response = await axios.post('http://localhost:3000/room', { username, id, room });
+      const response = await axios.post('http://localhost:3000/room', { id, room });
       console.log('Room created successfully:', response.data);
-      setTimeout(() => {
-        navigate(`/chat/${username}/${id}/${room}`);
+
+      const newRoomId = response.data.roomId;
+
+      if (newRoomId) {
+        setRoomId(newRoomId);
+        setTimeout(() => {
+        navigate(`/chat/${username}/${id}/${newRoomId}`);
+        addUsertoRoom(newRoomId);
       }, 10);
+    } else {
+        console.error('Room Id not found')
+    }
     } catch (error) {
       console.log('room creation failed:', error);
       setError('room creation failed.'); 
       setShowErrorPopup(true);
-    }
-    }
+    }}
+
+    const addUsertoRoom = async (roomId) => {
+        try {
+          if (!roomId) {
+            console.error('Room Id not found');
+            return;
+          }
+      
+          const response = await axios.post('http://localhost:3000/user-room', { id, roomId });
+          console.log(`${username} added to Room: ${room}, Id: ${roomId}`);
+        } catch (error) {
+          console.log('Error adding user to room:', error);
+        }
+      };
+      
+
+    const closeErrorPopup = () => {
+        console.log('close popup');
+        setShowErrorPopup(false);
+      };
 
     return(
         <div className="room">
@@ -49,6 +78,9 @@ function Room () {
               </div>
               <div className="signup-btn-container">
                 <button onClick={createRoom} className="signup-btn">Create Room</button>
+              </div>
+              <div>
+                {showErrorPopup && <ErrorPopup message={error} onClose={closeErrorPopup} />}
               </div>
         </div>
     )
