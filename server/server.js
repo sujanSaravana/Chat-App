@@ -91,22 +91,59 @@ app.use(bodyParser.json());
 
   app.post("/room", (req, res) => {
     const roomname = req.body.room;
-
-    pool.execute("INSERT INTO rooms (roomname) VALUES (?)", [roomname],
-    (err, result) => {
-      if (err) {
-        console.log('Error creating room:', err);
-        res.status(500).json({ success: false, message: 'Internal Server Error'});
+  
+    pool.execute("SELECT id FROM rooms WHERE roomname = ?", [roomname], (selectErr, selectResult) => {
+      if (selectErr) {
+        console.log('Error checking room existence:', selectErr);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
         return;
       }
-      const roomId = result.insertId;
-      console.log('Room created successfully. Room ID:', roomId);
-    res.json({ success: true, message: 'Room created successfully', roomId });
-    })
-  })
-
-
-
   
+      if (selectResult.length > 0) {
+        
+        const roomId = selectResult[0].id;
+        console.log('Room already exists. Room ID:', roomId);
+        res.json({ success: true, message: 'Room already exists', roomId });
+      } else {
+
+        pool.execute("INSERT INTO rooms (roomname) VALUES (?)", [roomname], (insertErr, result) => {
+          if (insertErr) {
+            console.log('Error creating room:', insertErr);
+            res.status(500).json({ success: false, message: 'Internal Server Error' });
+            return;
+          }
+          const roomId = result.insertId;
+          console.log('Room created successfully. Room ID:', roomId);
+          res.json({ success: true, message: 'Room created successfully', roomId });
+        });
+      }
+    });
+  });
   
- 
+
+  app.post("/user-room", (req, res) => {
+    const userId = req.body.id;
+    const roomId = req.body.roomId;
+
+    pool.execute("SELECT * FROM user_room WHERE userId = ? AND roomId = ?", [userId, roomId], (selectErr, selectResult) => {
+        if (selectErr) {
+            console.log('Error checking user-room existence:', selectErr);
+            res.status(500).json({ success: false, message: 'Internal Server Error' });
+            return;
+        }
+
+        if (selectResult.length > 0) {
+            console.log('User is already in the room');
+            res.json({ success: true, message: 'User is already in the room' });
+        } else {
+            pool.execute("INSERT INTO user_room (userId, roomId) VALUES (?, ?)", [userId, roomId], (insertErr, result) => {
+                if (insertErr) {
+                    console.log("Error adding user to room:", insertErr);
+                    res.status(500).json({ success: false, message: "Internal server Error" });
+                    return;
+                }
+                res.json({ success: true, message: "User added to room successfully" });
+            });
+        }
+    });
+});
