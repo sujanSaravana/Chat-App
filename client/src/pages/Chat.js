@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import './Chat.css';
 import { useUser } from '../components/Usercontext';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Chat() {
   const [leftContainerVisible, setLeftContainerVisible] = useState(true);
   const { loggedIn, logout } = useUser();
   const navigate = useNavigate();
+  const { username } = useParams();
 
   const handleToggle = () => {
     setLeftContainerVisible(!leftContainerVisible);
@@ -44,9 +45,10 @@ function Chat() {
         <div className="left-container">
           <div className="title-container">
             <p className="logo">Chat App</p>
+            <p className="username">{username}</p> {/* Display username near the title */}
           </div>
           <div className="user-container">
-            <h1>skdfjsld</h1>
+            <h1>{username}</h1>
           </div>
         </div>
       )}
@@ -55,7 +57,7 @@ function Chat() {
           {window.innerWidth <= 768 && (
             <div>
                <input onClick={handleToggle} className="toggle-btn" type="checkbox" id="checkbox"/>
-                <label for="checkbox" class="toggle">
+                <label htmlFor="checkbox" className="toggle">
                   <div className="bars" id="bar1"></div>
                   <div className="bars" id="bar2"></div>
                   <div className="bars" id="bar3"></div>
