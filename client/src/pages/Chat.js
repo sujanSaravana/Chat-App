@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './Chat.css';
 import { useUser } from '../components/Usercontext';
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 function Chat() {
@@ -86,7 +86,7 @@ function Chat() {
         <div className="left-container">
           <div className="title-container">
             <p className="logo">Chat App</p>
-            <p className="logo">{username}</p>
+            {/*<p className="logo1">{username}</p>*/}
           </div>
           <div className="user-container">
             <h1>{username}</h1>
@@ -105,6 +105,9 @@ function Chat() {
                 </label>
             </div>
           )}
+          <Link to={`/room/${username}/${id}`}>
+              <button className="create-room">Create a new Room</button>
+          </Link>
           <p>
             <button className="logout-btn" onClick={handlelogout}>logout</button>
           </p>

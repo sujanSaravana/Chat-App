@@ -1,7 +1,8 @@
 
 .container {
     display: flex;
-    align-items: stretch;
+    align-items: center;
+    justify-content: space-between;
 }
   
 .left-container,
@@ -23,28 +24,35 @@
 }
   
 .title-container{
-    background-color: #220e9e;
+    background-color: #10083f;
     color: aliceblue;
     font-family: 'Jost', sans-serif;
-    padding: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
 }  
 
 .user-container{
-    background-color: #6c5dcb;
     height:100vh;
+    border-right: 2px dashed #10083f;
+    background-color: rgb(227, 237, 244);
 }
 
 .logout-container{
-    background-color: #9D8FF0;
+    background-color: #10083f;
     font-family: 'Jost', sans-serif;
-    padding: 10px;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 37.5px;
 }
 
 .chat-container{
-    background-color: #f8f2ff;
+    background-color: rgb(227, 237, 244);
     height: 75%;
+}
+
+.input-container{
+  background-color: rgb(227, 237, 244);
 }
 
 .msg-input {
@@ -144,6 +152,38 @@
   body{
     margin: 0px;
   }
+
+  .logo{
+    font-weight: 600;
+  }
+
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.sent-message {
+  align-self: flex-end;
+  background-color: #4caf50; 
+  color: #fff;
+  padding: 8px;
+  margin: 4px;
+  border-radius: 8px;
+}
+
+.received-message {
+  align-self: flex-start;
+  background-color: #f1f0f0; 
+  color: #000;
+  padding: 8px;
+  margin: 4px;
+  border-radius: 8px;
+}
+
+
+
+  
 
   
 

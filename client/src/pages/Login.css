@@ -57,14 +57,14 @@
     left: 0;
     height: 2px;
     width: 0;
-    background-color: #1D4ED8;
+    background-color: #10083f;
     transition: all 0.3s ease;
   }
   
 .login:focus + .login-label {
     top: -20px;
     font-size: 12px;
-    color: #1D4ED8;
+    color: #10083f;
   }
   
 .login:focus + .login-label + .login-highlight {
@@ -81,7 +81,7 @@
 
 .signup-btn,
 .login-btn {
-    --color: #1D4ED8;
+    --color: #10083f;
     font-family: inherit;
     display: inline-block;
     width: 8em;
@@ -131,7 +131,7 @@
 
 .signup-btn:active:before,
 .login-btn:active:before {
-    background: #1D4ED8;
+    background: #10083f;
     transition: background 0s;
    }
 
