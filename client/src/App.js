@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter>
         <Routes>
         <Route path="/" element={<Navigate to="/Login" />} />
-        <Route path="/Chat/:username/:id/:room" element={<Chat />} />
+        <Route path="/Chat/:username/:id/:roomId" element={<Chat />} />
         <Route path="/Room/:username/:id" element={<Room />} />
         <Route path="/Room" element={<Room />} />
         <Route path="/Chat" element={<Chat />} />

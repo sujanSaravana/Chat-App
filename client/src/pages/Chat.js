@@ -2,12 +2,35 @@ import React, { useState, useEffect } from "react";
 import './Chat.css';
 import { useUser } from '../components/Usercontext';
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 function Chat() {
   const [leftContainerVisible, setLeftContainerVisible] = useState(true);
   const { loggedIn, logout } = useUser();
   const navigate = useNavigate();
-  const { username } = useParams();
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+  const { username, id, roomId } = useParams();
+
+  const sendMsg = async () => {
+    try {
+      if (!message.trim()) {
+        return;
+      }
+
+      console.log('Sending message with:', { id, roomId, message });
+      const response = await axios.post('http://localhost:3000/send-message', {
+        senderId: id,
+        roomId: roomId,
+        content: message
+      });
+
+      console.log('Message sent successfully:', response.data);
+      setMessage('');
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
 
   const handleToggle = () => {
     setLeftContainerVisible(!leftContainerVisible);
@@ -39,13 +62,31 @@ function Chat() {
     console.log("successfully logged out")
   };
 
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/get-messages/${roomId}`);
+        setMessages(response.data.messages);
+      } catch (error) {
+        console.log('Error fetching messages:', error);
+      }
+    };
+  
+    fetchMessages();
+    const intervalId = setInterval(() => {
+      fetchMessages();
+    }, 10);
+    return () => clearInterval(intervalId);
+  }, [roomId]);
+  
+
   return (
     <div className="container">
       {leftContainerVisible && (
         <div className="left-container">
           <div className="title-container">
             <p className="logo">Chat App</p>
-            <p className="username">{username}</p> {/* Display username near the title */}
+            <p className="logo">{username}</p>
           </div>
           <div className="user-container">
             <h1>{username}</h1>
@@ -69,11 +110,18 @@ function Chat() {
           </p>
         </div>
         <div className="chat-container">
-          <h3>chat</h3>
+          <h3>Chat</h3>
+          <div className="messages-container">
+            {messages.map(message => (
+              <div key={message.id} className={message.senderId === id ? 'sent-message' : 'received-message'}>
+                {message.content}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="input-container">
-          <input className="msg-input" name="text" placeholder="Type something..." type="search"/>
-          <button>Send</button>
+          <input className="msg-input" name="text" placeholder="Type something..." type="search" value={message} onChange={(e) => setMessage(e.target.value)}/>
+          <button onClick={sendMsg}>Send</button>
         </div>
       </div>
     </div>

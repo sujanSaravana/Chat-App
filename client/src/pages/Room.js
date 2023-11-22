@@ -62,15 +62,16 @@ function Room () {
         }
       };
       
-
     const closeErrorPopup = () => {
         console.log('close popup');
         setShowErrorPopup(false);
       };
 
     return(
-        <div className="room">
+        <div className="room-body">
+          <div className="space"></div>
             <h1 className="signup-title">Create a Room</h1>
+            <div className="space1"></div>
            <div className="signup-input">
                 <input className="signup" type="text" value={room} onChange={(e) => setRoom(e.target.value)} placeholder="Enter Room number"></input>
                 <label for="signup-username" className="signup-label">Enter Room Number</label>

@@ -50,3 +50,16 @@
     width: 100%;
   }
 
+.space{
+  padding-top: 5cm;
+}
+
+.room-body{
+  padding-left: 10cm;
+  padding-right: 10cm;
+}
+
+.space1{
+  padding-bottom: 0.05px;
+}
+
