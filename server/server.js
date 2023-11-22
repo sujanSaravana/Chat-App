@@ -6,27 +6,24 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { Server } = require("socket.io");
 
 dotenv.config();
-app.use(bodyParser.json());
-app.use(cors());
 
-const server = http.createServer(app);
 
 const port = 3000;
 const saltRound = 10;
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST" ],
-  },
-})
 
-  server.listen(3000, () => {
-    console.log("server running on port 3000")
-  })
+app.use(bodyParser.json());
+
+  app.use(cors({
+    origin : ["http://localhost:3001"],
+    methods : ["GET", "POST", "DELETE"],
+    credentials: true,
+  }))
+
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 
   const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -44,17 +41,6 @@ const io = new Server(server, {
     console.log('Connected to database');
   });
 
-  const authenticateToken = (req, res, next) => {
-    const token = req.header('Authorization');
-    if (!token) return res.status(401).json({ error: 'Unauthorized' });
-  
-    jwt.verify(token, 'your_secret_key', (err, user) => {
-      if (err) return res.status(403).json({ error: 'Forbidden' });
-      req.user = user;
-      next();
-    });
-  };
-
   app.post("/signup", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -71,6 +57,8 @@ const io = new Server(server, {
       res.json({ success: true, message: 'User created successfully' });
     })
   });
+
+  
 
   app.post("/login", (req, res) => {
     const { username, password } = req.body;
@@ -96,12 +84,26 @@ const io = new Server(server, {
         if (!isValid) {
           return res.status(401).json({ error: 'Invalid username or password' });
         }
-  
-        const accessToken = jwt.sign({ username: user.username, id: user.id }, 'your_secret_key');
-        res.json({ accessToken });
+        res.json({ success: true, message: 'Login successful' , userId: user.id});
       })
     });
   });
+
+  app.post("/room", (req, res) => {
+    const roomname = req.body.room;
+
+    pool.execute("INSERT INTO rooms (roomname) VALUES (?)", [roomname],
+    (err, result) => {
+      if (err) {
+        console.log('Error creating room:', err);
+        res.status(500).json({ success: false, message: 'Internal Server Error'});
+        return;
+      }
+      const roomId = result.insertId;
+      console.log('Room created successfully. Room ID:', roomId);
+    res.json({ success: true, message: 'Room created successfully', roomId });
+    })
+  })
 
 
 
