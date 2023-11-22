@@ -147,3 +147,42 @@ app.use(bodyParser.json());
         }
     });
 });
+
+app.post("/send-message", (req, res) => {
+  const { senderId, roomId, content } = req.body;
+
+  if (senderId === undefined || roomId === undefined || content === undefined) {
+    console.error('Invalid parameters for sending message');
+    res.status(400).json({ success: false, message: 'Invalid parameters' });
+    return;
+  }
+
+  pool.execute("INSERT INTO messages (senderId, roomId, content) VALUES (?, ?, ?)",
+    [senderId, roomId, content],
+    (err, result) => {
+      if (err) {
+        console.log("Error sending message:", err);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+        return;
+      }
+
+      const messageId = result.insertId;
+      console.log('Message sent successfully. Message ID:', messageId);
+
+      res.json({ success: true, message: 'Message sent successfully', messageId });
+    });
+});
+
+app.get("/get-messages/:roomId", (req, res) => {
+  const roomId = req.params.roomId;
+
+  pool.execute('SELECT * FROM messages WHERE roomId = ?', [roomId], (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching messages:', error);
+      res.status(500).json({ success: false, message: 'Internal Server Error' });
+    } else {
+      res.json({ success: true, messages: results });
+    }
+  });
+});
+
