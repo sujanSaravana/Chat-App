@@ -10,7 +10,33 @@ function Chat() {
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const { username, id, roomId } = useParams();
+  const { username, id, roomId, room } = useParams();
+  const [addUsername, setAddUsername] = useState('');
+
+  const addUser = async () => {
+    try {
+      if (!addUsername) {
+        return;
+      }
+  
+      const userResponse = await axios.get(`http://localhost:3000/get-user/${addUsername}`);
+      const userId = userResponse.data.message[0].id;
+  
+      console.log('Adding user with userId:', userId, 'to roomId:', roomId);
+  
+      const response = await axios.post('http://localhost:3000/add-user', {
+        userId: userId,
+        roomId: roomId,
+      });
+  
+      console.log('Response from server:', response.data);
+      console.log(`User ${addUsername} added to Room ${roomId} successfully`);
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
+  };
+  
+  
 
   const sendMsg = async () => {
     try {
@@ -75,7 +101,7 @@ function Chat() {
     fetchMessages();
     const intervalId = setInterval(() => {
       fetchMessages();
-    }, 10);
+    }, 1000);
     return () => clearInterval(intervalId);
   }, [roomId]);
   
@@ -86,10 +112,18 @@ function Chat() {
         <div className="left-container">
           <div className="title-container">
             <p className="logo">Chat App</p>
-            {/*<p className="logo1">{username}</p>*/}
           </div>
           <div className="user-container">
-            <h1>{username}</h1>
+            <div className="username">
+            <h3>Username: {username}</h3>
+            <h3>Room : {room}</h3>
+            </div>
+            <div className="add-user-container">
+              <input className="add-user" value={addUsername} onChange={(e) => setAddUsername(e.target.value)}placeholder="Enter Username"></input>
+            </div>
+            <div className="add-user-container">
+              <button className="add-user-btn" onClick={addUser}>Add User</button>
+            </div>
           </div>
         </div>
       )}
@@ -113,18 +147,17 @@ function Chat() {
           </p>
         </div>
         <div className="chat-container">
-          <h3>Chat</h3>
           <div className="messages-container">
             {messages.map(message => (
               <div key={message.id} className={message.senderId === id ? 'sent-message' : 'received-message'}>
-                {message.content}
+            {message.content}
               </div>
-            ))}
-          </div>
-        </div>
+                ))}
+            </div>
+         </div>
         <div className="input-container">
           <input className="msg-input" name="text" placeholder="Type something..." type="search" value={message} onChange={(e) => setMessage(e.target.value)}/>
-          <button onClick={sendMsg}>Send</button>
+          <button className="send-btn" onClick={sendMsg}>Send</button>
         </div>
       </div>
     </div>

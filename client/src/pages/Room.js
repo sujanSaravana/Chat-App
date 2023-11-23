@@ -36,7 +36,7 @@ function Room () {
       if (newRoomId) {
         setRoomId(newRoomId);
         setTimeout(() => {
-        navigate(`/chat/${username}/${id}/${newRoomId}`);
+        navigate(`/chat/${username}/${id}/${room}/${newRoomId}`);
         addUsertoRoom(newRoomId);
       }, 10);
     } else {
@@ -73,8 +73,8 @@ function Room () {
             <h1 className="signup-title">Create a Room</h1>
             <div className="space1"></div>
            <div className="signup-input">
-                <input className="signup" type="text" value={room} onChange={(e) => setRoom(e.target.value)} placeholder="Enter Room number"></input>
-                <label for="signup-username" className="signup-label">Enter Room Number</label>
+                <input className="signup" type="text" value={room} onChange={(e) => setRoom(e.target.value)} placeholder="Enter Room Name"></input>
+                <label for="signup-username" className="signup-label">Enter Room Name</label>
                 <span className="signup-highlight"></span>
               </div>
               <div className="signup-btn-container">
