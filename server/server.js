@@ -182,7 +182,48 @@ app.get("/get-messages/:roomId", (req, res) => {
       res.status(500).json({ success: false, message: 'Internal Server Error' });
     } else {
       res.json({ success: true, messages: results });
+      
     }
   });
 });
+
+app.get('/get-user/:username', (req, res) => {
+  const { username } = req.params;
+  
+  pool.execute('SELECT * FROM users WHERE username = ?', [username], (error, results, fields) =>{
+    if (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ success: false, message: 'Internal Server Error'});
+    } else {
+      res.json({ success: true, message: results });
+    }
+  })
+});
+
+app.post("/add-user", (req, res) => {
+  const {userId, roomId} = req.body;
+
+  if (userId === undefined || roomId === undefined) {
+    console.error('Invalid parameters for adding user');
+    res.status(400).json({ success: false, message: 'Invalid parameters'});
+    return;
+  }
+
+  pool.execute("INSERT INTO user_room (userId, roomId) VALUES (?,?)", 
+    [userId, roomId],
+    (err, result) => {
+      if (err) {
+        console.log("Error adding user:", err);
+        res.status(500).json({ success: false, message: "Internal Server Error"});
+        return;
+      }
+
+      const userRoomId = result.insertId;
+      console.log('User added successfully.', userRoomId)
+
+      res.json({ success: true, message: 'User added successfully', userRoomId });
+    }
+  )
+})
+
 
