@@ -3,7 +3,7 @@ I will be creating a Chat App, where Users can join a room and chat with eachoth
 Refer to the following documents:
 
 - DBschema.drawio
-- 
+
 - UseCaseDiagramm.png
 
 - UseCases.md
