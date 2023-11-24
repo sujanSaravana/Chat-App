@@ -173,8 +173,9 @@ app.post("/send-message", (req, res) => {
     });
 });
 
-app.get("/get-messages/:roomId", (req, res) => {
+app.get("/get-messages/:roomId/:id", (req, res) => {
   const roomId = req.params.roomId;
+  const senderId = req.params.id;
 
   pool.execute('SELECT * FROM messages WHERE roomId = ?', [roomId], (error, results, fields) => {
     if (error) {
