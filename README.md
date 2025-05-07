@@ -25,7 +25,6 @@ Before you begin, ensure you have met the following requirements:
 
 - Node.js and npm installed
 - MySQL database server
-- Docker (optional, for containerized deployment)
 
 ## Installation
 
@@ -54,7 +53,7 @@ Before you begin, ensure you have met the following requirements:
    ```bash
    DB_HOST=localhost
    DB_USER=root
-   DB_PASSWORD=11223344
+   DB_PASSWORD=1234
    DB_DATABASE=Kommunikationssystem
    DB_CONNECTION_LIMIT=10
 
