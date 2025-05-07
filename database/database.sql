@@ -10,21 +10,12 @@ CREATE TABLE users (
     UNIQUE (username)
 );
 
-INSERT INTO users (username, email, password)
-VALUES 
-('bob', 'bob@gmail.com', '1234'),
-('john', 'john@gmai.com', '1122');
-
 CREATE TABLE rooms (
   id INT AUTO_INCREMENT PRIMARY KEY,
   roomname VARCHAR(255) NOT NULL,
   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   UNIQUE (roomname)
 );
-
-INSERT INTO rooms (roomname)
-VALUES
-('bob');
 
 CREATE TABLE messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,10 +27,6 @@ CREATE TABLE messages (
   FOREIGN KEY (roomId) REFERENCES rooms(id)
 );
 
-INSERT INTO messages (senderId, roomId, content)
-VALUES
-('41', '1', 'Hello, my name is john');
-
 CREATE TABLE user_room (
   userId INT,
   roomId INT,
@@ -48,7 +35,3 @@ CREATE TABLE user_room (
   FOREIGN KEY (roomId) REFERENCES rooms(id)
 );
 
-INSERT INTO user_room (userId, roomId)
-VALUES
-(1, 1),
-(2, 1);
